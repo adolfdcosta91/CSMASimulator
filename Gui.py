@@ -1,26 +1,71 @@
-from tkinter import *
+from tkinter import*
 window = Tk()
-window.title("Transmission Simulation")
-window.geometry('800x600')
-lbl = Label(window ,text= "Enter the Number of Nodes")
-lbl.grid(column=0, row=0)
-spin = Spinbox(window, from_=0, to=100, width=20)
-spin.grid(column=1,row=0)
-lbl = Label(window ,text= "Enter the Number of Time Slots")
-lbl.grid(column=0, row=1)
-spin = Spinbox(window, from_=0, to=100, width=20)
-spin.grid(column=1,row=1)
-lbl = Label(window ,text= "Enter the Buffer Size")
-lbl.grid(column=0, row=2)
-spin = Spinbox(window, from_=0, to=100, width=20)
-spin.grid(column=1,row=2)
-lbl = Label(window ,text= "Enter the Probability of Generating Packet")
-lbl.grid(column=0, row=3)
-spin = Spinbox(window, from_=0, to=100, width=20)
-spin.grid(column=1,row=3)
-window.mainloop()
 
-#NumberOfNodes = input("Enter the Number of Nodes\n")
-#NumberOfBufferSize = input("Enter the Buffer Size\n")
-#NumberOfTimeSlot = input("Enter Number of Time Slot\n")
-#ProbabilityValueOfGeneratingPackets = input("Enter the Probability of Generating Packets\n")
+# Variable initiation
+number_of_nodes = IntVar()
+number_of_time_slots = IntVar()
+buffer_size = IntVar()
+probability_of_generating_packet = DoubleVar()
+
+# Store the user data and to print
+def print_values():
+    lbl = Label(window, text="Number of Nodes: " + number_of_nodes.get(), font=('Helvetica',10,'bold'))
+    lbl.grid(column=3, row=1)
+    lbl = Label(window, text="Number of Time Slots: " + number_of_time_slots.get(), font=('Helvetica',10,'bold'))
+    lbl.grid(column=3, row=2)
+    lbl = Label(window, text="Buffer Size: " + buffer_size.get(), font=('Helvetica',10,'bold'))
+    lbl.grid(column=3, row=3)
+    lbl = Label(window, text="Probability of Packet Generation: " + probability_of_generating_packet.get(), font=('Helvetica',10,'bold'))
+    lbl.grid(column=3, row=4)
+    print(number_of_nodes.get())
+    print(number_of_time_slots.get())
+    print(buffer_size.get())
+    print(probability_of_generating_packet.get())
+
+
+window.title("Transmission Simulation Input")
+window.geometry('900x600')
+filename = PhotoImage(file = "E:networking.png")
+background_label = Label(window, image=filename)
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+#Insert the labels in the window
+text = Label(window, text= "Input Value",font=('Helvetica',20,'bold'))
+text.grid(column=0, row=0, columnspan = 2)
+text = Label(window, text= "\t",font=('Helvetica',20,'bold'))
+text.grid(column=2, row=0,)
+text = Label(window, text= "Values to Compute",font=('Helvetica',20,'bold'))
+text.grid(column=3, row=0, columnspan = 2)
+
+# To display Number of Node label,spin box
+lbl = Label(window, text= "Enter the Number of Nodes (0-100)", font=('Helvetica',10,'bold'))
+lbl.grid(column=0, row=1)
+number_of_nodes = Spinbox(window, from_=0, to=100, width=20,)
+number_of_nodes.grid(column=1,row=1)
+
+
+# To display Number of Time Slot label,spin box
+lbl = Label(window ,text= "Enter the Number of Time Slots (0-100)", font=('Helvetica',10,'bold'))
+lbl.grid(column=0, row=2)
+number_of_time_slots = Spinbox(window, from_=0, to=100, width=20)
+number_of_time_slots.grid(column=1,row=2)
+
+# To display Buffer Size label,spin box
+lbl = Label(window ,text= "Enter the Buffer Size (0-100)", font=('Helvetica',10,'bold'))
+lbl.grid(column=0, row=3)
+buffer_size = Spinbox(window, from_=0, to=100, width=20)
+buffer_size.grid(column=1,row=3)
+
+# To display Probability of Generating packet label,spin box, double data type was used for decimal
+lbl = Label(window ,text= "Enter the Probability of Generating Packet (0.1-1)", font=('Helvetica',10,'bold'))
+lbl.grid(column=0, row=4)
+probability_of_generating_packet = Spinbox(window, from_=0, to=1, increment=0.1, width=20)
+probability_of_generating_packet.grid(column=1,row=4)
+
+# To display a button
+button=Button(window,text='Accept',command=print_values,height = 3, width = 60, font=('Helvetica',10,'bold'))
+button.grid(column=0,row=5,columnspan = 2)
+
+#Output Display
+
+window.mainloop()
