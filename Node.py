@@ -30,7 +30,9 @@ class Node:
             # packet generated
             self.num_of_gen_packets += 1
             # insert in buffer if not full
-            new_packet = Packet.Packet(self.identity_ip, rand_int(1, self.total_nodes_in_system), generation_timeslot)
+            identity = 'Node '
+            identity += str(randint(1, self.total_nodes_in_system))
+            new_packet = Packet.Packet(self.identity_ip, identity, generation_timeslot)
             if len(self.buffer) == self.buffer.maxlen:
                 # buffer size is full, so the packet is dropped, increase dropped packet count
                 self.lost_packet_count += 1
@@ -39,6 +41,7 @@ class Node:
 
     def book_keeping_after_suc_trans(self, trans_timeslot):
         # packet transmitted
+        print("successful transmission")
         self.success_trans_packet_count += 1
         # turn off faced collision flag
         if self.facedCollision:
