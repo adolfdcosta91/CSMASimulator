@@ -29,10 +29,11 @@ class Node:
         if rand_int <= allowable_upper_bound:
             # packet generated
             self.num_of_gen_packets += 1
-            # insert in buffer if not full
+
             identity = 'Node '
             identity += str(randint(1, self.total_nodes_in_system))
             new_packet = Packet.Packet(self.identity_ip, identity, generation_timeslot)
+            # insert in buffer if not full
             if len(self.buffer) == self.buffer.maxlen:
                 # buffer size is full, so the packet is dropped, increase dropped packet count
                 self.lost_packet_count += 1
@@ -70,10 +71,10 @@ class Node:
         # change consecutive collisions count
         if self.consecutive_collisions > 0:
             self.consecutive_collisions += 1
-        if self.consecutive_collisions == 16:
+        if self.consecutive_collisions == self.max_retrans_count_until_drop:
             # packet is dropped due to consecutive collisions
             # remove from buffer
-            transmitted_packet = self.buffer.popleft()
+            self.buffer.popleft()
             # update consecutive collisions variable
             self.consecutive_collisions = 0
             # update lost packet count
