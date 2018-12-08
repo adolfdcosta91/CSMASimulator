@@ -12,6 +12,7 @@ def simulate():
     global simulation_time
     simulation_time = int(number_of_time_slots.get())
     buffer_size = int(size_of_buffer.get())
+    frame_size = int(size_of_frame.get())
     packet_gen_prob = float(probability_of_generating_packet.get())
     num_of_nodes = int(number_of_nodes.get())
     randomization_ceiling = int(maximum_randomisation_ceiling.get())
@@ -56,7 +57,7 @@ def simulate():
                 utilized_timeslots += 1
                 transmiting_node = transmitting_nodes_list.pop()
                 transmiting_node.book_keeping_after_suc_trans(timeslot_instance)
-                occupied_timeslot = 9
+                occupied_timeslot = frame_size - 1
             elif len(transmitting_nodes_list) > 1:
                 channel_state = "contention"
                 wasted_timeslots += 1
@@ -96,40 +97,40 @@ def simulate():
     global total_num_of_collisions
     total_num_of_collisions = get_num_of_coll_trans(nodes_list)
 
-    print("Throughput of the system")
+    # Determines the throughput of the system
     global throughput
     if simulation_time != 0:
         throughput = (succ_frame_count / simulation_time)
     else:
         throughput = 0
 
-    print("Channel utilization")
+    # Determines the channel utilization
     global channel_util
     if simulation_time != 0:
         channel_util = (utilized_timeslots / simulation_time)
     else:
         channel_util = 0
 
-    print("Channel waste")
+    # Determines the channel waste
     global channel_waste
     if simulation_time != 0:
         channel_waste = (wasted_timeslots / simulation_time)
     else:
         channel_waste = 0
 
-    print("Retransmission overhead")
+    # Determines retransmission overhead
     global retrans_overhead
     num_of_retrans = get_retrans_overhead(nodes_list)
     if succ_frame_count != 0:
-        retrans_overhead = (num_of_retrans/succ_frame_count)
+        retrans_overhead = round(num_of_retrans/succ_frame_count,2)
     else:
         retrans_overhead = 0
 
-    print("Average Delay")
+    # Determines average delay
     global avg_delay
     num_of_delayed_slots = get_avg_total_delay(nodes_list)
     if succ_frame_count != 0:
-        avg_delay = num_of_delayed_slots / succ_frame_count
+        avg_delay = round(num_of_delayed_slots / succ_frame_count,2)
     else:
         avg_delay = 0
 
@@ -206,62 +207,69 @@ def formulate_window():
     background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
     # Insert the labels in the window
-    text = Label(window, text="Input Value", font=('Helvetica', 20, 'bold'))
+    text = Label(window, text="Input Values", font=('Helvetica', 20, 'bold'))
     text.grid(column=0, row=0, columnspan=2)
 
     text = Label(window, text="\t", font=('Helvetica', 20, 'bold'))
     text.grid(column=2, row=0,)
 
-    text = Label(window, text="Values to Compute", font=('Helvetica', 20, 'bold'))
+    text = Label(window, text="Results", font=('Helvetica', 20, 'bold'))
     text.grid(column=3, row=0, columnspan=2)
 
     # To display Number of Node label,spin box
-    lbl = Label(window, text="Enter the Number of Nodes (0-100)", font=('Helvetica', 10, 'bold'))
+    lbl = Label(window, text="Enter number of Nodes: ", font=('Helvetica', 10, 'bold'))
     lbl.grid(column=0, row=1)
     global number_of_nodes
-    number_of_nodes = Spinbox(window, from_=0, to=100, width=20)
+    number_of_nodes = Spinbox(window, from_=0,to=1000, width=20)
     number_of_nodes.grid(column=1, row=1)
 
-    # To display Number of Time Slot label,spin box
-    lbl = Label(window, text="Enter the Number of Time Slots (0-100)", font=('Helvetica', 10, 'bold'))
+    # To display total simulation time,spin box
+    lbl = Label(window, text="Enter number of Simulation Time Slots: ", font=('Helvetica', 10, 'bold'))
     lbl.grid(column=0, row=2)
     global number_of_time_slots
-    number_of_time_slots = Spinbox(window, from_=0, to=100, width=20)
+    number_of_time_slots = Spinbox(window, from_=0, to=1000, width=20)
     number_of_time_slots.grid(column=1, row=2)
 
     # # To display Buffer Size label,spin box
-    lbl = Label(window, text="Enter the Buffer Size (0-100)", font=('Helvetica', 10, 'bold'))
+    lbl = Label(window, text="Enter Buffer size: ", font=('Helvetica', 10, 'bold'))
     lbl.grid(column=0, row=3)
     global size_of_buffer
-    size_of_buffer = Spinbox(window, from_=0, to=100, width=20)
+    size_of_buffer = Spinbox(window, from_=0, to=1000, width=20)
     size_of_buffer.grid(column=1, row=3)
+
+    # # To display Buffer Size label,spin box
+    lbl = Label(window, text="Enter Frame size: ", font=('Helvetica', 10, 'bold'))
+    lbl.grid(column=0, row=4)
+    global size_of_frame
+    size_of_frame = Spinbox(window, from_=0, to=1000, width=20)
+    size_of_frame.grid(column=1, row=4)
     #
     # # To display Probability of Generating packet label,spin box, double data type was used for decimal
-    lbl = Label(window, text="Enter the Probability of Generating Packet (0.1-1)", font=('Helvetica', 10, 'bold'))
-    lbl.grid(column=0, row=4)
+    lbl = Label(window, text="Enter the Probability of Packet generation (0.1-1)", font=('Helvetica', 10, 'bold'))
+    lbl.grid(column=0, row=5)
     global probability_of_generating_packet
     probability_of_generating_packet = Spinbox(window, from_=0, to=1, increment=0.1, width=20)
-    probability_of_generating_packet.grid(column=1, row=4)
+    probability_of_generating_packet.grid(column=1, row=5)
     #
     # # To display Re-transmission count
-    lbl = Label(window, text="Enter the re-transmission count (0-100)", font=('Helvetica', 10, 'bold'))
-    lbl.grid(column=0, row=5)
+    lbl = Label(window, text="Enter the re-transmission count: ", font=('Helvetica', 10, 'bold'))
+    lbl.grid(column=0, row=6)
     global maximum_retransmission_count
-    maximum_retransmission_count = Spinbox(window, from_=0, to=100, width=20)
-    maximum_retransmission_count.grid(column=1, row=5)
+    maximum_retransmission_count = Spinbox(window, from_=0, to=1000, width=20)
+    maximum_retransmission_count.grid(column=1, row=6)
     #
     # # To display Maximum randomisation ceiling
-    lbl = Label(window, text="Enter Maximum randomisation ceiling (0-100)", font=('Helvetica', 10, 'bold'))
-    lbl.grid(column=0, row=6)
+    lbl = Label(window, text="Enter maximum randomisation ceiling: ", font=('Helvetica', 10, 'bold'))
+    lbl.grid(column=0, row=7)
     global maximum_randomisation_ceiling
-    maximum_randomisation_ceiling = Spinbox(window, from_=0, to=100, width=20)
-    maximum_randomisation_ceiling.grid(column=1, row=6)
+    maximum_randomisation_ceiling = Spinbox(window, from_=0, to=1000, width=20)
+    maximum_randomisation_ceiling.grid(column=1, row=7)
     #
     #
     # # To display a button
     global button
     button = Button(window, text='Simulate', command=simulate, height=3, width=17, font=('Helvetica', 10, 'bold'))
-    button.grid(column=0, row=7, columnspan=2)
+    button.grid(column=0, row=8, columnspan=2)
     button.configure(background='Steelblue1')
     # OutputDisplay
 
