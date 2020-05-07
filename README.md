@@ -19,6 +19,16 @@ The system requires the below input. The user can feed values to the system usin
 
 ![GUI](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/CSMA.png)
 
+## Executing Code
+
+The **DriverFile.py** is the parents file that is executed.
+
+**Dependent Files**
+* Gui.py
+* Node.py
+* Packet.py
+* networking.png
+
 ## Results 
 
 ![Results](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/Result1.png)
