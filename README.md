@@ -15,12 +15,10 @@ The system requires the below input. The user can feed values to the system usin
 * Maximum randomization ceiling.
 
 
-![System Design](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/CSMA.png)
-
 ## Graphical User Inerface
 
-![System Design](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/CSMA.png)
+![GUI](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/CSMA.png)
 
 ## Results 
 
-![System Design](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/Result.png)
+![Results](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/Result.png)
