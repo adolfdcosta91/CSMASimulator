@@ -21,4 +21,4 @@ The system requires the below input. The user can feed values to the system usin
 
 ## Results 
 
-![Results](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/Result.png)
+![Results](https://github.com/adolfdcosta91/CSMASimulator/blob/master/GitHub/Result1.png)
